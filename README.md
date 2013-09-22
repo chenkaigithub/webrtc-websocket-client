@@ -1,7 +1,7 @@
 # WebRTC / Websocket interaction demo
 
 This demo demonstrates pure websockets in conjunction with WebRTC to create
-a view conference room without a media server in between... just WebRTC doing it's magic.
+a video conference room without a media server in between... just WebRTC doing it's magic.
 
 To get this set up,
 
@@ -10,7 +10,7 @@ To get this set up,
 > node index.js
 ```
 
-Now point your Chrome/Firefox browser to http://localhost:8081
+Now point your up-to-date Chrome/Firefox browser to http://localhost:8081
 
 
 ## Acknowledgement 
