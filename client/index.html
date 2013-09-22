@@ -57,7 +57,7 @@
             meeting.onaddstream = function(e) {
                 if (e.type == 'local') {
                     localMediaStream.appendChild(e.video);
-                } else if (e.type == 'remote') {
+                } else {
                     remoteMediaStreams.insertBefore(e.video, remoteMediaStreams.firstChild);
                 }
             };
@@ -71,7 +71,9 @@
 
             meeting.openSignalingChannel = function(k) {
                 var ws = new WebSocket('ws://' + window.location.hostname + ':8080');
-                ws.onmessage = k;
+                ws.onmessage = function(m) {
+                        k(m.data);
+                };
                 return {
                     send: function(m) {
                         if (ws.readyState === ws.OPEN) {

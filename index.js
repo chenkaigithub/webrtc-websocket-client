@@ -8,8 +8,13 @@ wss.on('connection', function(ws) {
     ws.on('message', function(msg) {
         console.log(msg);
         // broadcast the message over to the other sockets
-        sockets.forEach(function() {
-            sockets.send(msg); 
+        sockets.forEach(function(s) {
+            try {
+                s.send(msg); 
+            } catch (e) {
+                console.log('error');
+                console.dir(e);
+            }
         });
     });
 
@@ -22,6 +27,8 @@ wss.on('connection', function(ws) {
 
         console.log('socket closed');
     });
+
+    console.log('connected');
 });
 
 
