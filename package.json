@@ -9,9 +9,10 @@
     "ws": "~0.4.30",
     "node-static": "~0.7.1",
     "aws-sdk": "latest",
-    "mime": "latest"
+    "mime": "latest",
+    "redis": "~0.8.4"
   },
   "engines": {
-    "node": "~0.11.7"
+    "node": "~0.10.8"
   }
 }
