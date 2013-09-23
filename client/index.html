@@ -67,7 +67,7 @@
                 var messageQueue = [];
 
                 function createWebSocket() {
-                    var s = new WebSocket(/localhost/.match(window.location.hostname) 
+                    var s = new WebSocket(/localhost/.test(window.location.hostname) 
                                                             ? 'ws://localhost:8080' 
                                                             : 'ws://wswebrtc-9148.onmodulus.net');
 
