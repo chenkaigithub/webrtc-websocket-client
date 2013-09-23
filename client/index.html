@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="style.css" />
         <script>
             var hash = window.location.hash.replace('#', '');
-            if (!hash.length) location.href = location.href + '#roomid-1';
+            if (!hash.length) location.href = location.href + '#room-1';
         </script>
         <script src="meeting.js"></script>
     </head>
@@ -21,12 +21,8 @@
             WebRTC One-to-Many Video-Broadcasting / <a href="https://github.com/muaz-khan/WebRTC-Experiment/tree/master/broadcast" target="_blank">Source Code</a>
         </h1>
         <p>
-            <span>Copyright © 2013</span> <a href="https://github.com/muaz-khan" target="_blank">
-                                              Muaz Khan</a><span>&lt;</span><a href="http://twitter.com/muazkh" target="_blank">@muazkh</a><span>&gt;.</span>
+            <span>Copyright © 2013</span><a href="https://github.com/muaz-khan" target="_blank">Muaz Khan</a><span>&lt;</span><a href="http://twitter.com/muazkh" target="_blank">@muazkh</a><span>&gt;.</span>
         </p>
-        <section class="plusone-gplus">
-            <div class="g-plusone" data-href="https://www.webrtc-experiment.com/"></div>
-        </section>
         <section>
             <h2>Setup a new meeting:</h2>
             <button id="setup-new-meeting">Setup New Meeting</button>
@@ -34,15 +30,13 @@
         <table>
             <tr>
                 <td>
-                    <h2 style="display: block; text-align: center;">
-                        Local Media Stream</h2>
+                    <h2 style="display: block; text-align: center;">Local Media Stream</h2>
                     <section id="local-media-stream"></section>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <h2 style="display: block; text-align: center;">
-                        Remote Media Streams</h2>
+                    <h2 style="display: block; text-align: center;">Remote Media Streams</h2>
                     <section id="remote-media-streams"></section>
                 </td>
             </tr>
@@ -69,16 +63,41 @@
                 }
             };
 
-            meeting.openSignalingChannel = function(k) {
-                //var ws = new WebSocket('ws://' + window.location.hostname + ':8080');
-                var ws = new WebSocket('ws://wswebrtc-9148.onmodulus.net');
-                ws.onmessage = function(m) {
-                    k(m.data);
-                };
+            meeting.openSignalingChannel = function(onMessageRecieved) {
+                var messageQueue = [];
+
+                function createWebSocket() {
+                    var s = new WebSocket(/localhost/.match(window.location.hostname) 
+                                                            ? 'ws://localhost:8080' 
+                                                            : 'ws://wswebrtc-9148.onmodulus.net');
+
+                    s.onopen = function() {
+                        // empty the queue in the case of reconnect
+                        var msg;
+                        while((msg = messageQueue.pop())) {
+                            s.send(msg);
+                        }
+                    };
+
+                    s.onmessage = function(e) {
+                        onMessageRecieved(e.data);
+                    };
+
+                    return s;
+                }
+
+                var ws = createWebSocket(); 
+
                 return {
                     send: function(m) {
-                        if (ws.readyState === ws.OPEN) {
+                        var state = ws.readyState;
+                        if (state === WebSocket.OPEN) {
                             ws.send(m);
+                        } else if (state === WebSocket.CLOSED || state === WebSocket.CLOSING) {
+                            messageQueue.push(m);
+                            ws = createWebSocket();
+                        } else {
+                            messageQueue.push(m);
                         }
                     }
                 };

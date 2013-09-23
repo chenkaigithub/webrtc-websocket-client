@@ -1,6 +1,5 @@
 var port = process.env.port || 8080;
 var wss = new (require('ws').Server)({ port: port });
-
 var sockets = [];
 
 wss.on('connection', function(ws) {
@@ -29,14 +28,9 @@ wss.on('connection', function(ws) {
         console.log('socket closed');
     });
 
-    console.log('connected');
+    console.log('socket connected');
 });
 
-
-// static file serving... not important
-var staticServer = new (require('node-static').Server)('./client');
-require('http').createServer(function (request, response) {
-    request.addListener('end', function () {
-        staticServer.serve(request, response);
-    }).resume();
-}).listen(8081);
+if (process.env.NODE_ENV !== 'production') {
+    require('./fileClient');
+}
