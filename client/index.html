@@ -70,9 +70,10 @@
             };
 
             meeting.openSignalingChannel = function(k) {
-                var ws = new WebSocket('ws://' + window.location.hostname + ':8080');
+                //var ws = new WebSocket('ws://' + window.location.hostname + ':8080');
+                var ws = new WebSocket('ws://wswebrtc-9148.onmodulus.net');
                 ws.onmessage = function(m) {
-                        k(m.data);
+                    k(m.data);
                 };
                 return {
                     send: function(m) {

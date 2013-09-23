@@ -1,4 +1,5 @@
-var wss = new (require('ws').Server)({ port: 8080 });
+var port = process.env.port || 8080;
+var wss = new (require('ws').Server)({ port: port });
 
 var sockets = [];
 

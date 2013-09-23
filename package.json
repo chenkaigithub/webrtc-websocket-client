@@ -1,15 +1,15 @@
 {
-  "name": "webrtc",
-  "version": "0.0.0",
+  "name": "ws-webrtc",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "dependencies": {
     "ws": "~0.4.30",
     "node-static": "~0.7.1"
+  },
+  "engines": {
+    "node": "~0.11.7"
   }
 }
