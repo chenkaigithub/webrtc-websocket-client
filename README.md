@@ -12,6 +12,9 @@ To get this set up,
 
 Now point your up-to-date Chrome/Firefox browser to http://localhost:8081
 
+## Example
+[http://webrtc-node-indy.s3-website-us-east-1.amazonaws.com/index.html#room-1]
+
 
 ## Acknowledgement 
 
