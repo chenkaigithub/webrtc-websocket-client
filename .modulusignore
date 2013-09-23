@@ -1,0 +1,7 @@
+client/**
+aws.json
+.gitignore
+fileClient.js
+upload_client.js
+LICENSE
+README.md
